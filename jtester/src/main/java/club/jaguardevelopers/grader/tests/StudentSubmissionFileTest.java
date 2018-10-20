@@ -3,13 +3,14 @@ package club.jaguardevelopers.grader.tests;
 import club.jaguardevelopers.grader.ExpectedOutputFile;
 import club.jaguardevelopers.grader.StudentSubmissionFile;
 import org.junit.jupiter.api.Test;
-
+import info.debatty.java.stringsimilarity.JaroWinkler;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StudentSubmissionFileTest {
 
     StudentSubmissionFile studentFile;
     ExpectedOutputFile expectedFile;
+    JaroWinkler similarityPercent = new JaroWinkler();
 
     public StudentSubmissionFileTest(StudentSubmissionFile studentFile, ExpectedOutputFile expectedFile){
         this.studentFile = studentFile;
@@ -23,10 +24,12 @@ public class StudentSubmissionFileTest {
     }
 
     public void isOutputSameAsExpectedOutput(){
-        char[] studentArr = studentFile.getProgramOutput().toCharArray();
-        char[] expectedArr = expectedFile.toString().toCharArray();
 
         if(!studentFile.getProgramOutput().equals(expectedFile.toString()) ){
+            double percent = similarityPercent.similarity(studentFile.getProgramOutput(),expectedFile.toString());
+            System.out.println("Student's output: "+studentFile.getProgramOutput());
+            System.out.println("Expected output: "+expectedFile.toString());
+            System.out.println(percent+" match");
 
         }
         else{
